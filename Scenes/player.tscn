@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://my5l6s4dbojp"]
+
+[ext_resource type="Texture2D" uid="uid://bcrn8mwh1rcf2" path="res://Assets/player_idle.png" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://bye7bvvupks2a" path="res://Assets/player_move_1.png" id="2_cvnsp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cvnsp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v0iea")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v0iea")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cvnsp")
+}],
+"loop": true,
+"name": &"move",
+"speed": 6.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cvnsp")
+animation = &"idle"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -42, 17, 26, -17, 26)
