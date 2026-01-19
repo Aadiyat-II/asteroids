@@ -9,29 +9,23 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_v0iea")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_v0iea")
 }, {
 "duration": 1.0,
 "texture": ExtResource("2_cvnsp")
 }],
 "loop": true,
 "name": &"move",
-"speed": 6.0
+"speed": 10.0
 }]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_6t5aa")
+Acceleration = 250.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_cvnsp")
-animation = &"idle"
+animation = &"move"
+frame_progress = 0.902475
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(0, -42, 17, 26, -17, 26)
