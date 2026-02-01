@@ -8,5 +8,6 @@ script = ExtResource("1_go701")
 
 [node name="Player" parent="." instance=ExtResource("1_a02cp")]
 position = Vector2(576, 320)
+RotationSpeed = 2.0
 
 [connection signal="BulletFired" from="Player" to="." method="OnPlayerBulletFired"]
