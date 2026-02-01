@@ -3,6 +3,9 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
+    [Signal]
+    public delegate void BulletFiredEventHandler(Bullet bullet);
+
     [Export]
     public float RotationSpeed {get; set;} = 1.5f;
 
@@ -12,13 +15,26 @@ public partial class Player : CharacterBody2D
     [Export]
     public float MaxVelocity {get; set;} = 250.0f;
 
-     private AnimatedSprite2D _animatedSprite;
+    [Export]
+    public PackedScene BulletScene {get; set;}
+
+    private AnimatedSprite2D _animatedSprite;
+
+    private Marker2D _muzzle;
 
     public override void _Ready()
     {
         _animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _muzzle = GetNode<Marker2D>("Muzzle");
     }
 
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("fire"))
+        {
+            FireBullet();
+        }
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -33,7 +49,6 @@ public partial class Player : CharacterBody2D
         {
             _animatedSprite.Stop();
         }
-
 
         MoveAndSlide();
     }
@@ -51,6 +66,14 @@ public partial class Player : CharacterBody2D
     private float GetAngleToMouse()
     {
         return (-Transform.Y).AngleTo(GetGlobalMousePosition() - Position);
+    }
+
+    private void FireBullet()
+    {   
+        Bullet bullet = BulletScene.Instantiate<Bullet>();
+        bullet.Position = _muzzle.GlobalPosition;
+        bullet.Rotation = Rotation;
+        EmitSignal("BulletFired", bullet);
     }
 
 }
