@@ -31,6 +31,11 @@ fire={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_3="Enemies"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

@@ -20,6 +20,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 4
 script = ExtResource("1_6t5aa")
 RotationSpeed = 3.0
 Acceleration = 250.0
@@ -31,7 +32,7 @@ animation = &"move"
 frame_progress = 0.902475
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(0, -42, 17, 26, -17, 26)
+polygon = PackedVector2Array(0, -38, 17, 26, -17, 26)
 
 [node name="Muzzle" type="Marker2D" parent="."]
 position = Vector2(0, -45)
