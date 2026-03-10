@@ -15,11 +15,14 @@ public partial class Bullet : Area2D
     {
         GD.Print("I'm Gone");
         QueueFree();
-    }
+    }  
 
     private void OnBodyEntered(Node2D body)
     {
         QueueFree();
-        body.QueueFree();
+        if(body is Targetable target)
+        {
+            target.OnHit();
+        }
     }
 }
