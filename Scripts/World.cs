@@ -27,7 +27,7 @@ public partial class World : Node2D
         Asteroid asteroid = AsteroidScene.Instantiate<Asteroid>();
 
         // Set Position
-        _enemySpawnLocation.ProgressRatio = 0.15f;
+        _enemySpawnLocation.ProgressRatio = GD.Randf();
         asteroid.Position = _enemySpawnLocation.Position;
 
         // Set Rotation
