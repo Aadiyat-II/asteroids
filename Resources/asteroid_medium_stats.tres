@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AsteroidStats" load_steps=4 format=3 uid="uid://xq71n4otfwk0"]
+
+[ext_resource type="Shape2D" uid="uid://v1n2ceofedpb" path="res://Resources/asteroid_medium_collision_shape.tres" id="1_3fxhy"]
+[ext_resource type="Texture2D" uid="uid://crl6tjgux1fh4" path="res://Assets/asteroid_medium.png" id="2_20kw6"]
+[ext_resource type="Script" uid="uid://cmemrb3vdj2d" path="res://Scripts/AsteroidStats.cs" id="3_ryl8y"]
+
+[resource]
+script = ExtResource("3_ryl8y")
+maxSpeed = 200
+minSpeed = 150
+hitPoints = 2
+SpriteTexture = ExtResource("2_20kw6")
+CollisionShape = ExtResource("1_3fxhy")
+asteroidType = 1
+metadata/_custom_type_script = "uid://cmemrb3vdj2d"

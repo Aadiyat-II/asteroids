@@ -4,20 +4,28 @@ using System;
 public partial class Asteroid : RigidBody2D, Targetable
 {
     [Export]
-    public float maxSpeed {get; set;}
-    [Export]
-    public float minSpeed {get; set;}
-
-    [Export]
-    public int hitPoints {get; set;} = 3;
-
+    public AsteroidStats asteroidStats {get; set;}
     private Vector2 movementVector = new(1, 0);
+    private Sprite2D _sprite;
+    private CollisionShape2D _collisionShape;
+    private int _hitPoints;
     public override void _Ready()
     {
-        GD.Print(Rotation);
-        LinearVelocity = movementVector.Rotated(Rotation) * (float)GD.RandRange(minSpeed, maxSpeed);
+        _sprite = GetNode<Sprite2D>("Sprite2D");
+        _collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
+        
+        ApplyVariant();
+
+        LinearVelocity = movementVector.Rotated(Rotation) * (float)GD.RandRange(asteroidStats.minSpeed, asteroidStats.maxSpeed);
         GD.Print("Travelling at:");
         GD.Print(LinearVelocity);
+    }
+
+    private void ApplyVariant()
+    {
+        _sprite.Texture = asteroidStats.SpriteTexture;
+        _collisionShape.Shape = asteroidStats.CollisionShape;
+        _hitPoints = asteroidStats.hitPoints;
     }
 
     private void OnVisibleOnScreenNotifier2DScreenExited()
@@ -27,8 +35,8 @@ public partial class Asteroid : RigidBody2D, Targetable
 
     public void OnHit()
     {
-        hitPoints -= 1;
-        if(hitPoints <= 0)
+        _hitPoints -= 1;
+        if(_hitPoints <= 0)
         {
             QueueFree();
         }
