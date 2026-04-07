@@ -3,6 +3,9 @@ using System;
 
 public partial class Asteroid : RigidBody2D, Targetable
 {
+    [Signal]
+    public delegate void AsteroidExplodedEventHandler(Asteroid[] asteroids);
+
     [Export]
     public AsteroidStats asteroidStats {get; set;}
     private Vector2 movementVector = new(1, 0);
@@ -38,8 +41,38 @@ public partial class Asteroid : RigidBody2D, Targetable
         _hitPoints -= 1;
         if(_hitPoints <= 0)
         {
+            _collisionShape.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+            Explode();
             QueueFree();
         }
+    }
+
+    private void Explode()
+    {
+        int numChildren = 2;
+        var asteroidScene = GD.Load<PackedScene>(SceneFilePath);
+
+        if(asteroidStats.asteroidType == AsteroidType.SMALL) return;
+
+        AsteroidStats childStats = asteroidStats.asteroidType switch
+        {
+            AsteroidType.LARGE => GD.Load<AsteroidStats>("res://Resources/asteroid_medium_stats.tres"),
+            AsteroidType.MEDIUM => GD.Load<AsteroidStats>("res://Resources/asteroid_small_stats.tres"),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+
+        Asteroid[] children = new Asteroid[numChildren];
+        for(int i = 0; i < numChildren; i++)
+        {
+            Asteroid asteroidChild = asteroidScene.Instantiate<Asteroid>();
+            asteroidChild.Position = Position;
+            asteroidChild.Rotation =  (float)GD.RandRange(0, 2*Mathf.Pi);
+            asteroidChild.asteroidStats = childStats;
+            children[i] = asteroidChild;
+            
+        }
+        
+        EmitSignal(SignalName.AsteroidExploded, children);
     }
        
 }

@@ -17,6 +17,15 @@ public partial class World : Node2D
         AddChild(bullet);
     }
 
+    public void OnAsteroidExploded(Asteroid[] asteroids)
+    {
+        foreach(var asteroid in asteroids)
+        {
+            asteroid.AsteroidExploded += OnAsteroidExploded;
+            CallDeferred(MethodName.AddChild, asteroid);
+        }
+    }
+
     private void OnAsteroidTimerTimeout()
     {
         SpawnAsteroid();
@@ -36,6 +45,7 @@ public partial class World : Node2D
         asteroid.Rotation = direction;
 
         // Asteroid sets its own velocity
+        asteroid.AsteroidExploded += OnAsteroidExploded;
         AddChild(asteroid);
     }
 }
