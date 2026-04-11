@@ -8,10 +8,12 @@ public partial class World : Node2D
     private PathFollow2D _enemySpawnLocation;
 
     private int _score;
+    private Hud _hud;
 
     public override void _Ready()
     {
         _enemySpawnLocation = GetNode<PathFollow2D>("EnemyPath/EnemySpawnLocation");
+        _hud = GetNode<Hud>("HUD");
     }
 
     public void OnPlayerBulletFired(Bullet bullet)
@@ -22,6 +24,8 @@ public partial class World : Node2D
     public void OnAsteroidExploded(Asteroid[] asteroids, int score)
     {
         _score += score;
+        _hud.UpdateScore(_score);
+
         foreach(var asteroid in asteroids)
         {
             asteroid.AsteroidExploded += OnAsteroidExploded;
