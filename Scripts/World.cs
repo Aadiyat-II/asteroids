@@ -7,6 +7,8 @@ public partial class World : Node2D
 
     private PathFollow2D _enemySpawnLocation;
 
+    private int _score;
+
     public override void _Ready()
     {
         _enemySpawnLocation = GetNode<PathFollow2D>("EnemyPath/EnemySpawnLocation");
@@ -17,13 +19,15 @@ public partial class World : Node2D
         AddChild(bullet);
     }
 
-    public void OnAsteroidExploded(Asteroid[] asteroids)
+    public void OnAsteroidExploded(Asteroid[] asteroids, int score)
     {
+        _score += score;
         foreach(var asteroid in asteroids)
         {
             asteroid.AsteroidExploded += OnAsteroidExploded;
             CallDeferred(MethodName.AddChild, asteroid);
         }
+        GD.Print(_score);
     }
 
     private void OnAsteroidTimerTimeout()

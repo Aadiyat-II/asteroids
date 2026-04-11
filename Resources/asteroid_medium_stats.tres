@@ -9,6 +9,7 @@ script = ExtResource("3_ryl8y")
 maxSpeed = 200
 minSpeed = 150
 hitPoints = 2
+scoreValue = 2
 SpriteTexture = ExtResource("2_20kw6")
 CollisionShape = ExtResource("1_3fxhy")
 asteroidType = 1

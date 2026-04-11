@@ -4,7 +4,7 @@ using System;
 public partial class Asteroid : RigidBody2D, Targetable
 {
     [Signal]
-    public delegate void AsteroidExplodedEventHandler(Asteroid[] asteroids);
+    public delegate void AsteroidExplodedEventHandler(Asteroid[] asteroids, int score);
 
     [Export]
     public AsteroidStats asteroidStats {get; set;}
@@ -42,6 +42,7 @@ public partial class Asteroid : RigidBody2D, Targetable
         if(_hitPoints <= 0)
         {
             _collisionShape.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+
             Explode();
             QueueFree();
         }
@@ -72,7 +73,7 @@ public partial class Asteroid : RigidBody2D, Targetable
             
         }
         
-        EmitSignal(SignalName.AsteroidExploded, children);
+        EmitSignal(SignalName.AsteroidExploded, children, asteroidStats.scoreValue);
     }
        
 }
