@@ -1,23 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4tgqxcxw4jle"]
+[gd_scene load_steps=5 format=3 uid="uid://b4tgqxcxw4jle"]
 
-[ext_resource type="Texture2D" uid="uid://b22kgme6mf7x1" path="res://Assets/asteroid.png" id="1_0tomg"]
+[ext_resource type="Texture2D" uid="uid://b22kgme6mf7x1" path="res://Assets/asteroid_large.png" id="1_0tomg"]
 [ext_resource type="Script" uid="uid://cvioahcooa81u" path="res://Scripts/Asteroid.cs" id="1_a2bka"]
+[ext_resource type="Resource" uid="uid://7qk72u5n0t1m" path="res://Resources/asteroid_large_stats.tres" id="2_bi0dy"]
+[ext_resource type="Shape2D" uid="uid://bcmqr8wqiuq18" path="res://Resources/asteroid_large_collision_shape.tres" id="3_rvlwq"]
 
 [node name="Asteroid" type="RigidBody2D"]
 collision_layer = 4
 gravity_scale = 0.0
 script = ExtResource("1_a2bka")
-maxSpeed = 600.0
-minSpeed = 300.0
+asteroidStats = ExtResource("2_bi0dy")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_0tomg")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-16, -48, 0, -48, 32, -32, 64, 16, 24, 56, 0, 56, -40, 40, -64, 16, -64, -16)
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(7.24, 6.44)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5.68434e-14, -9.53674e-07)
+rotation = -1.31462
+shape = ExtResource("3_rvlwq")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnVisibleOnScreenNotifier2DScreenExited"]

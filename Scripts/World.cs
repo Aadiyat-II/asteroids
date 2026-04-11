@@ -7,6 +7,8 @@ public partial class World : Node2D
 
     private PathFollow2D _enemySpawnLocation;
 
+    private int _score;
+
     public override void _Ready()
     {
         _enemySpawnLocation = GetNode<PathFollow2D>("EnemyPath/EnemySpawnLocation");
@@ -15,6 +17,17 @@ public partial class World : Node2D
     public void OnPlayerBulletFired(Bullet bullet)
     {
         AddChild(bullet);
+    }
+
+    public void OnAsteroidExploded(Asteroid[] asteroids, int score)
+    {
+        _score += score;
+        foreach(var asteroid in asteroids)
+        {
+            asteroid.AsteroidExploded += OnAsteroidExploded;
+            CallDeferred(MethodName.AddChild, asteroid);
+        }
+        GD.Print(_score);
     }
 
     private void OnAsteroidTimerTimeout()
@@ -36,6 +49,7 @@ public partial class World : Node2D
         asteroid.Rotation = direction;
 
         // Asteroid sets its own velocity
+        asteroid.AsteroidExploded += OnAsteroidExploded;
         AddChild(asteroid);
     }
 }
