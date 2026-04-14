@@ -19,7 +19,7 @@ public partial class Hud : CanvasLayer
         {
             TextureRect rect = new TextureRect
             {
-                Texture = GD.Load<Texture2D>("res://Assets/player_idle.png")
+                Texture = GD.Load<Texture2D>("res://Assets/life_icon.png")
             };
 
             _healthContainer.AddChild(rect);
