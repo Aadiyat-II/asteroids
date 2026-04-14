@@ -5,15 +5,21 @@ public partial class World : Node2D
     [Export]
     public PackedScene AsteroidScene {get; set;}
 
-    private PathFollow2D _enemySpawnLocation;
+    [Export]
+    public int InitialLives {get; set; }  = 3;
 
-    private int _score;
-    private Hud _hud;
+    private PathFollow2D _enemySpawnLocation;
+    private Hud _hud; 
+
+    private int _score = 0;
+    private int _currLives;
 
     public override void _Ready()
     {
+        _currLives = InitialLives;
         _enemySpawnLocation = GetNode<PathFollow2D>("EnemyPath/EnemySpawnLocation");
         _hud = GetNode<Hud>("HUD");
+        _hud.SetInitialLives(InitialLives);
     }
 
     public void OnPlayerBulletFired(Bullet bullet)

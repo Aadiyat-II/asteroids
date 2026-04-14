@@ -13,7 +13,6 @@ public partial class Bullet : Area2D
 
     public void OnVisibleOnScreenNotifier2dScreenExited()
     {
-        GD.Print("I'm Gone");
         QueueFree();
     }  
 
