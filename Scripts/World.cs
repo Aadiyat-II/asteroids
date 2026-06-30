@@ -27,16 +27,24 @@ public partial class World : Node2D
         AddChild(bullet);
     }
 
-    public void OnAsteroidExploded(Asteroid[] asteroids, int score)
+    public void OnAsteroidExploded(Vector2 position, AsteroidStats variant, int score)
     {
+        int numChildren = 2;
         _score += score;
         _hud.UpdateScore(_score);
 
-        foreach(var asteroid in asteroids)
+        Asteroid[] children = new Asteroid[numChildren];
+        for(int i = 0; i < numChildren; i++)
         {
-            asteroid.AsteroidExploded += OnAsteroidExploded;
-            CallDeferred(MethodName.AddChild, asteroid);
+            Asteroid asteroidChild = AsteroidScene.Instantiate<Asteroid>();
+            asteroidChild.Position = position;
+            asteroidChild.Rotation =  (float)GD.RandRange(0, 2*Mathf.Pi);
+            asteroidChild.asteroidStats = variant;
+            children[i] = asteroidChild;
+            asteroidChild.AsteroidExploded += OnAsteroidExploded;
+            CallDeferred(MethodName.AddChild, asteroidChild);
         }
+
         GD.Print(_score);
     }
 
