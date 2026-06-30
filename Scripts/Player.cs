@@ -65,7 +65,8 @@ public partial class Player : CharacterBody2D
 
     private float GetAngleToMouse()
     {
-        return (-Transform.Y).AngleTo(GetGlobalMousePosition() - Position);
+        Vector2 mouseRelativePosition = GetGlobalMousePosition() - Position;
+        return (-Transform.Y).AngleTo(mouseRelativePosition);
     }
 
     private void FireBullet()

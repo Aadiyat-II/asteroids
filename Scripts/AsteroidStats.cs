@@ -5,17 +5,17 @@ using System;
 public partial class AsteroidStats : Resource
 {
     [Export]
-    public int maxSpeed { get; set;}
+    public int MaxSpeed { get; set;}
     [Export]
-    public int minSpeed { get; set;}
+    public int MinSpeed { get; set;}
     [Export]
-    public int hitPoints {get; set;}
+    public int HitPoints {get; set;}
     [Export]
-    public int scoreValue { get; set; }
+    public int ScoreValue { get; set; }
     [Export]
     public Texture2D SpriteTexture {get; set;}
     [Export]
     public Shape2D CollisionShape { get; set;}
     [Export]
-    public AsteroidType asteroidType {get; set;}
+    public AsteroidStats nextVariant { get; set; }
 }

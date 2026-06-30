@@ -4,7 +4,7 @@ using System;
 public partial class Asteroid : RigidBody2D, Targetable
 {
     [Signal]
-    public delegate void AsteroidExplodedEventHandler(Asteroid[] asteroids, int score);
+    public delegate void AsteroidExplodedEventHandler(Vector2 position, AsteroidStats variant, int score);
 
     [Export]
     public AsteroidStats asteroidStats {get; set;}
@@ -19,7 +19,7 @@ public partial class Asteroid : RigidBody2D, Targetable
         
         ApplyVariant();
 
-        LinearVelocity = movementVector.Rotated(Rotation) * (float)GD.RandRange(asteroidStats.minSpeed, asteroidStats.maxSpeed);
+        LinearVelocity = movementVector.Rotated(Rotation) * (float)GD.RandRange(asteroidStats.MinSpeed, asteroidStats.MaxSpeed);
         GD.Print("Travelling at:");
         GD.Print(LinearVelocity);
     }
@@ -28,7 +28,7 @@ public partial class Asteroid : RigidBody2D, Targetable
     {
         _sprite.Texture = asteroidStats.SpriteTexture;
         _collisionShape.Shape = asteroidStats.CollisionShape;
-        _hitPoints = asteroidStats.hitPoints;
+        _hitPoints = asteroidStats.HitPoints;
     }
 
     private void OnVisibleOnScreenNotifier2DScreenExited()
@@ -50,30 +50,8 @@ public partial class Asteroid : RigidBody2D, Targetable
 
     private void Explode()
     {
-        int numChildren = 2;
-        var asteroidScene = GD.Load<PackedScene>(SceneFilePath);
-
-        if(asteroidStats.asteroidType == AsteroidType.SMALL) return;
-
-        AsteroidStats childStats = asteroidStats.asteroidType switch
-        {
-            AsteroidType.LARGE => GD.Load<AsteroidStats>("res://Resources/asteroid_medium_stats.tres"),
-            AsteroidType.MEDIUM => GD.Load<AsteroidStats>("res://Resources/asteroid_small_stats.tres"),
-            _ => throw new ArgumentOutOfRangeException(),
-        };
-
-        Asteroid[] children = new Asteroid[numChildren];
-        for(int i = 0; i < numChildren; i++)
-        {
-            Asteroid asteroidChild = asteroidScene.Instantiate<Asteroid>();
-            asteroidChild.Position = Position;
-            asteroidChild.Rotation =  (float)GD.RandRange(0, 2*Mathf.Pi);
-            asteroidChild.asteroidStats = childStats;
-            children[i] = asteroidChild;
-            
-        }
-        
-        EmitSignal(SignalName.AsteroidExploded, children, asteroidStats.scoreValue);
+        if(asteroidStats.nextVariant == null) return;
+        EmitSignal(SignalName.AsteroidExploded, Position, asteroidStats.nextVariant, asteroidStats.ScoreValue);
     }
        
 }
